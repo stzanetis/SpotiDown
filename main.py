@@ -3,6 +3,8 @@ import os
 import re
 
 import spotipy
+from pytube import YouTube
+from pytube import Search
 from dotenv import load_dotenv
 from spotipy.oauth2 import SpotifyClientCredentials
 
@@ -23,6 +25,7 @@ try:
     username = input("Spotify account username: ")
 except (ValueError, IndexError):
     print("Invalid username.")
+    exit()
 
 playlists = sp.user_playlists(username)
 print("Loading playlists..")
@@ -46,6 +49,8 @@ while playlists:
 
 # get list of tracks in a given playlist (note: max playlist length 100)
 tracks = sp.playlist_tracks(playlist_uri)["items"]
+a = len(tracks)
+print(a)
 
 # create csv file
 with open(OUTPUT_FILE_NAME, "w", encoding="utf-8") as file:
@@ -60,6 +65,11 @@ with open(OUTPUT_FILE_NAME, "w", encoding="utf-8") as file:
         artists = ", ".join(
             [artist["name"] for artist in track["track"]["artists"]]
         )
+        artist_title = artists + name
+        s = Search(artist_title)
+        yt = s.results[0]
+        stream = yt.streams.filter(only_audio=True).first()
+        stream.download()
 
         # write to csv
         writer.writerow([name, artists])
