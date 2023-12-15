@@ -39,10 +39,8 @@ def downloadSongs(tracks):
 
     for track in tracks:
         name = track["track"]["name"]
-        artists = ", ".join(
-            [artist["name"] for artist in track["track"]["artists"]]
-        )
-        artist_title = artists + name
+        artist = track["track"]["artists"][0]["name"]
+        artist_title = artist + name
         s = Search(artist_title)
         yt = s.results[0]
         stream = yt.streams.filter(only_audio=True).first()
@@ -54,7 +52,7 @@ def downloadSongs(tracks):
 load_dotenv()
 CLIENT_ID = os.getenv("CLIENT_ID", "")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET", "")
-SPOTIPY_REDIRECT_URI="http://localhost:8888/callback"
+REDIRECT_URI="http://localhost:8888/callback"
 
 # ask user for type of login
 cho1 = input("1.Find Playlists by username    2.Login to your account    3.Get liked songs(only from login)    4.Quit\nSelect an option: ")
@@ -78,15 +76,22 @@ if cho1 == '1':
     tracks = sp.playlist_tracks(playlist_uri)["items"]
     downloadSongs(tracks)
 elif cho1 == '2':
-    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri=SPOTIPY_REDIRECT_URI, scope="playlist-read-private"))
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri=REDIRECT_URI, scope="playlist-read-private"))
     playlists = sp.current_user_playlists()
     playlist_uri = printPlaylists(playlists)
     tracks = sp.playlist_tracks(playlist_uri)["items"]
     downloadSongs(tracks)
 elif cho1 == '3':
-    #not working yet, forbidden error 403
-    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri=SPOTIPY_REDIRECT_URI))
-    tracks = sp.current_user_saved_tracks(market="GR")
-    downloadSongs(tracks)
+    # not using fuction downloadSongs because of different format in current_user_saved_tracks
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri=REDIRECT_URI, scope="user-library-read"))
+    tracks = sp.current_user_saved_tracks(limit=10)
+    for track in tracks["items"]:
+        name = track["track"]["name"]
+        artist = track["track"]["artists"][0]["name"]
+        artist_title = artist + name
+        s = Search(artist_title)
+        yt = s.results[0]
+        stream = yt.streams.filter(only_audio=True).first()
+        stream.download() #add output folder in other cases except KHD
 elif cho1 == '4':
     exit()
