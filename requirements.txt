@@ -1,0 +1,4 @@
+dotenv
+spotipy
+yt_dlp
+ytmusicapi
