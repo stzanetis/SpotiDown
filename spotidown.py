@@ -1,7 +1,7 @@
-import os, dotenv, spotipy, wget
-from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
-from ytmusicapi import YTMusic
-from yt_dlp import YoutubeDL
+import os, dotenv, spotipy, wget                                    # type: ignore
+from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth   # type: ignore
+from ytmusicapi import YTMusic                                      # type: ignore
+from yt_dlp import YoutubeDL                                        # type: ignore
 
 # Print users playlists and return the songs from the selected playlist
 def selectPlaylist(playlists):

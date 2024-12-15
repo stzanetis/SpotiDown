@@ -1,4 +1,5 @@
 dotenv
 spotipy
+wget
 yt_dlp
 ytmusicapi
