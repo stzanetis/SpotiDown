@@ -1,5 +1,6 @@
-dotenv
+python-dotenv
 spotipy
 wget
 yt_dlp
 ytmusicapi
+ffmpeg-python

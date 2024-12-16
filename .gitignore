@@ -1,3 +1,4 @@
 /.env
 /ffmpeg
 /bin
+/.cache
