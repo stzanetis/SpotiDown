@@ -1,4 +1,4 @@
-import os, dotenv, spotipy, wget, shutil, ffmpeg, music_tag                  # type: ignore
+import os, dotenv, spotipy, wget, music_tag                         # type: ignore
 from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth   # type: ignore
 from ytmusicapi import YTMusic                                      # type: ignore
 from yt_dlp import YoutubeDL                                        # type: ignore

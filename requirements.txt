@@ -3,4 +3,4 @@ spotipy
 wget
 yt_dlp
 ytmusicapi
-ffmpeg-python
+music_tag 
