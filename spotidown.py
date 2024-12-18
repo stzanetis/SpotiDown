@@ -2,7 +2,6 @@ import os, dotenv, spotipy, wget, music_tag                         # type: igno
 from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth   # type: ignore
 from ytmusicapi import YTMusic                                      # type: ignore
 from yt_dlp import YoutubeDL                                        # type: ignore
-from difflib import SequenceMatcher                                 # type: ignore
 
 # Print users playlists and return the songs from the selected playlist
 def selectPlaylist(playlists):
@@ -146,16 +145,19 @@ def findBestSong(track, search_results):
     spotify_artist = track["track"]["artists"][0]["name"].lower()
     spotify_duration = track["track"]["duration_ms"] / 1000
     for result in search_results:
+        print("Spotify name: %s, Spotify artist: %s, Spotify duration: %d" % (spotify_name, spotify_artist, spotify_duration))
+        print("Youtube name: %s, Youtube artist: %s, Youtube duration: %d" % (result["title"].lower(), result["artists"][0]["name"].lower(), result["duration_seconds"]))
         youtube_name = result["title"].lower()
         youtube_artist = result["artists"][0]["name"].lower()
         youtube_duration = result["duration_seconds"]
 
-        name_match = SequenceMatcher(None, spotify_name, youtube_name).ratio()
+        name_match = sum(1 for char in spotify_name if char in youtube_name) / len(spotify_name)
         artist_match = sum(1 for artist in spotify_artist if artist in youtube_artist) / len(spotify_artist)
         duration_match = 1 - min(1, abs(spotify_duration - youtube_duration) / spotify_duration * 0.1)
         score = (w_artist * artist_match +
                  w_name * name_match +
                  w_duration * duration_match)
+        print("Score: %f" % (score))
         if score > best_score:
             best_score = score
             best_match = result

@@ -1,4 +1,5 @@
 /.env
 /ffmpeg
-/bin
 /.cache
+/temp
+/output
