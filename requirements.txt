@@ -3,4 +3,5 @@ spotipy
 wget
 yt_dlp
 ytmusicapi
-music_tag 
+music_tag
+rich
