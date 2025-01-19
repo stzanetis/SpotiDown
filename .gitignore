@@ -3,3 +3,5 @@
 /.cache
 /temp
 /output
+/Test
+/utils/__pycache__
