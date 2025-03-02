@@ -1,8 +1,8 @@
-import spotipy, dotenv, os
-from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
-from rich.console import Console
-from rich.columns import Columns
-from rich.prompt import Prompt
+import spotipy, dotenv, os                                              # type: ignore
+from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth       # type: ignore
+from rich.console import Console                                        # type: ignore
+from rich.columns import Columns                                        # type: ignore
+from rich.prompt import Prompt                                          # type: ignore
 
 console = Console()
 
@@ -52,7 +52,7 @@ def select_playlist(sp):
                     break
                 offset = offset + 50
 
-                return all_tracks
+                return all_tracks, "Liked Songs"
         else:
             try:
                 selected_index = int(userinput) - 1  # Adjust index to match 0-based indexing
@@ -60,11 +60,6 @@ def select_playlist(sp):
                 console.print(f"You selected playlist: [bold green]{selected_playlist}[/bold green]")
 
                 playlist_uri = playlists['items'][selected_index]['uri']
-
-                # Create playlist folder if it doesn't exist
-                playlist_folder = os.path.join(os.path.join(os.getcwd(), "output"), "Playlists")
-                if not (os.path.exists(playlist_folder) and os.path.isdir(playlist_folder)):
-                    os.mkdir(playlist_folder)
                     
                 return sp.playlist_tracks(playlist_uri)["items"], selected_playlist
             except (ValueError, IndexError):

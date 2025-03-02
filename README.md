@@ -1,5 +1,7 @@
 # SpotiDown
 
+![CLI interface](https://drive.google.com/file/d/1G9xHP51C2te_GYy4RZY6s94p3OgShz3V/view)
+
 SpotiDown is a **Python-based** program that downloads your **Spotify** music playlists from YouTube, even **without a premium subscription**. All you need to do is log in with your personal Spotify account, and you can choose to download any of your playlists or favorite songs!
 
 ## Features
@@ -19,7 +21,34 @@ pip install -r requirements.txt
 python ./main.py
 ```
 
-## Important
+## Usage
 
-- Right now you can only use this by creating your own app in spotify web developer and putting your client id and secret to a .env file.
-- Binaries for ffmpeg also need to be in the repository directory in order to convert the webm files downloaded from ytdlp to mp3 files.
+### Prerequisites
+
+- Create your own app in the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/) and add your client ID and secret to a `.env` file
+- Ensure FFmpeg binaries are in the repository directory to convert YouTube downloads to MP3 format
+
+### Basic Usage
+
+After successfully logging in, you can select the playlist you want to download from the interactive menu.
+
+### Advanced Options
+
+You can also download specific songs or playlists by passing arguments at execution time:
+
+```bash
+# Download a specific playlist using its URL
+python main.py --playlist "https://open.spotify.com/playlist/37i9dQZF1DX0XUsuxWHRQd"
+
+# Change the output directory
+python main.py --output "/path/to/music"
+
+# Specify playlist file format
+python main.py --format "m3u8"
+```
+
+For a complete list of available arguments:
+
+```bash
+python main.py --help
+```
