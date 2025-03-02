@@ -1,6 +1,6 @@
 # SpotiDown
 
-![CLI interface](https://drive.google.com/file/d/1G9xHP51C2te_GYy4RZY6s94p3OgShz3V/view)
+![CLI interface](https://raw.githubusercontent.com/stzanetis/SpotiDown/master/docs/assets/screenshot_cli.png)
 
 SpotiDown is a **Python-based** program that downloads your **Spotify** music playlists from YouTube, even **without a premium subscription**. All you need to do is log in with your personal Spotify account, and you can choose to download any of your playlists or favorite songs!
 
