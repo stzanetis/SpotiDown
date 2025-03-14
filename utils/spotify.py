@@ -11,7 +11,7 @@ def load_cred():
     dotenv.load_dotenv()
     CLIENT_ID = os.getenv("CLIENT_ID", "")
     CLIENT_SECRET = os.getenv("CLIENT_SECRET", "")
-    REDIRECT_URI="http://localhost:8888/callback"
+    REDIRECT_URI="https://127.0.0.1:8888/callback"
 
     return CLIENT_ID, CLIENT_SECRET, REDIRECT_URI
 
