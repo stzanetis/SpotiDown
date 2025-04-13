@@ -20,7 +20,6 @@ def authenticate_spotify():
     CLIENT_ID, CLIENT_SECRET, REDIRECT_URI = load_cred()
     
     console.print("Login to your [bold green]Spotify[/bold green] account through your browser to continue: ", end="")
-    #client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri=REDIRECT_URI, scope="user-library-read playlist-read-private"))
     console.print("[bold blue]Succesful Login![/bold blue]")
     
@@ -61,6 +60,21 @@ def select_playlist(sp):
 
                 playlist_uri = playlists['items'][selected_index]['uri']
                     
-                return sp.playlist_tracks(playlist_uri)["items"], selected_playlist
+                return get_all_tracks(sp, playlist_uri), selected_playlist
             except (ValueError, IndexError):
                 console.print("[bold red]Invalid input[/bold red]. Please enter a [bold green]valid[/bold green] playlist number.")
+
+def get_all_tracks(sp, playlist_uri):
+    all_tracks = []
+    offset = 0
+    while True:
+        # Fetch 100 songs at a time
+        batch = sp.playlist_tracks(playlist_uri, limit=100, offset=offset)
+        items = batch['items']
+        all_tracks.extend(items)
+
+        if len(items) < 100: # Stop when there are no more songs to fetch
+            break
+        offset = offset + 100
+
+    return all_tracks
